@@ -9,6 +9,7 @@ public class Timer : MonoBehaviour
     int feverCounter;
 
     [SerializeField] SimplePlayer simplePlayer;
+    [SerializeField] ManagerScrpt gameManager;
     [SerializeField] Text feverCounterTXT;
 
     TimerSoundEffects timerSoundEffects;
@@ -64,6 +65,7 @@ public class Timer : MonoBehaviour
         tempoAtual += Time.deltaTime;
         if (tempoAtual >= (tempoInicial + (tempoIntervalo * intervaloAtual)))
         {
+            simplePlayer.PlayMarchAnimation();
             if (intervaloTocado)
             {
                 intervaloAtual += 1;
@@ -87,6 +89,8 @@ public class Timer : MonoBehaviour
 
     public void StopTime(bool v)
     {
+        simplePlayer.ResetMarchar();
+
         if (v)
         {
             feverCounter++;
@@ -94,6 +98,7 @@ public class Timer : MonoBehaviour
         }
         else
         {
+            simplePlayer.PlayMistakeAnimation();
             feverCounter = 0;
             timerSoundEffects.PlayWrong();
         }
@@ -109,15 +114,15 @@ public class Timer : MonoBehaviour
         if (IsInTimer())
         {
             intervaloTocado = true;
-            DoPlayerAction(actionCode);
+            CallManagerforComboAction(actionCode);
         }
         else
             StopTime(false);
     }
 
-    private void DoPlayerAction(int actionCode)
+    private void CallManagerforComboAction(int actionCode)
     {
-        simplePlayer.DoActionBasedOnCode(actionCode);
+        gameManager.DealWithCombo(actionCode);
     }
 
     public bool IsInTimer()

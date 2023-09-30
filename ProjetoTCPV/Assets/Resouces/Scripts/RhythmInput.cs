@@ -36,7 +36,6 @@ public class RhythmInput : MonoBehaviour
 
         if (keyToVerify != 0 )
         {
-            Debug.Log(keyToVerify);
             if (verifyCombos.Verificar(keyToVerify))
             {
                 timer.CorrectInput(verifyCombos.VerifyCompletion());

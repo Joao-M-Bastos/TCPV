@@ -17,16 +17,19 @@ public class Timer : MonoBehaviour
     bool isCountingTimer;
     bool intervaloTocado;
 
+
     float tempoInicial;
 
     float tempoAtual;
 
-    [SerializeField] float tempoIntervalo;
+    
+    float tempoIntervalo;
 
     public int intervaloAtual;
 
     private void Awake()
     {
+        tempoIntervalo = 1 / (gameManager.GetBPM() / 60);
         timerSoundEffects = this.gameObject.GetComponent<TimerSoundEffects>();
     }
 
@@ -84,12 +87,15 @@ public class Timer : MonoBehaviour
     private void StopedTime()
     {
         if (!timerSoundEffects.IsCorrectPlaying() && !timerSoundEffects.IsWrongPlaying())
+        {
             StartTimer();
+        }
     }
 
     public void StopTime(bool v)
     {
         simplePlayer.ResetMarchar();
+        isCountingTimer = false;
 
         if (v)
         {
@@ -104,8 +110,6 @@ public class Timer : MonoBehaviour
         }
 
         feverCounterTXT.text = "Combos: " + feverCounter;
-
-        isCountingTimer = false;
     }
 
     public void CorrectInput(int actionCode)

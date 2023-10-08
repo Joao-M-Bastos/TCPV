@@ -6,11 +6,17 @@ using UnityEngine;
 public class SimplePlayer : MonoBehaviour
 {
     [SerializeField] Animator[] charactersAnimator;
+    [SerializeField] ManagerScrpt gameManager;
     Rigidbody playerRB;
 
     private void Awake()
     {
         playerRB = this.gameObject.GetComponent<Rigidbody>();
+
+        foreach (Animator a in charactersAnimator)
+        {
+            a.SetFloat("VelocidadeDeMarcha", gameManager.GetBPM() / 60);
+        }
     }
 
     public void DoActionBasedOnCode(int actionCode)
@@ -22,6 +28,12 @@ public class SimplePlayer : MonoBehaviour
                 break;
             case 2:
                 PlayAnimation("Attack");
+                break;
+            case 3:
+                playerRB.AddForce(-this.transform.right * 10, ForceMode.Impulse);
+                break;
+            case 4:
+                PlayAnimation("Defence");
                 break;
         }
     }

@@ -4,14 +4,16 @@ using UnityEngine;
 
 public class VerifyCombos
 {
-    CombosInputs walkCombo, attackCombo;
+    CombosInputs walkCombo, attackCombo, backoffCombo, defenceCombo;
     CombosInputs[] combos;
 
     public VerifyCombos()
     {
         walkCombo = new CombosInputs(1, 1, 2, 3, 4);
         attackCombo = new CombosInputs(2, 2, 2, 3, 3);
-        combos = new CombosInputs[2] { walkCombo, attackCombo };
+        backoffCombo = new CombosInputs(3, 4, 3, 2, 1);
+        defenceCombo = new CombosInputs(4, 3, 3, 2,  2);
+        combos = new CombosInputs[4] { walkCombo, attackCombo, backoffCombo, defenceCombo };
         
     }
 

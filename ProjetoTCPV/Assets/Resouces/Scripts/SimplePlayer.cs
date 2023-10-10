@@ -5,7 +5,8 @@ using UnityEngine;
 
 public class SimplePlayer : MonoBehaviour
 {
-    [SerializeField] Animator[] charactersAnimator;
+    
+    [SerializeField] PersonagenDaBateria[] charactersScripts;
     [SerializeField] ManagerScrpt gameManager;
     Rigidbody playerRB;
 
@@ -13,9 +14,9 @@ public class SimplePlayer : MonoBehaviour
     {
         playerRB = this.gameObject.GetComponent<Rigidbody>();
 
-        foreach (Animator a in charactersAnimator)
+        foreach (PersonagenDaBateria a in charactersScripts)
         {
-            a.SetFloat("VelocidadeDeMarcha", gameManager.GetBPM() / 60);
+            a.SetVelocidadeDeMarcha(gameManager.GetBPM() / 60);
         }
     }
 
@@ -28,6 +29,7 @@ public class SimplePlayer : MonoBehaviour
                 break;
             case 2:
                 PlayAnimation("Attack");
+                CharactersAttack();
                 break;
             case 3:
                 playerRB.AddForce(-this.transform.right * 10, ForceMode.Impulse);
@@ -37,6 +39,8 @@ public class SimplePlayer : MonoBehaviour
                 break;
         }
     }
+
+    #region Animation
 
     public void PlayMistakeAnimation()
     {
@@ -50,17 +54,31 @@ public class SimplePlayer : MonoBehaviour
 
     public void ResetMarchar()
     {
-        foreach (Animator a in charactersAnimator)
+        foreach (PersonagenDaBateria a in charactersScripts)
         {
-            a.ResetTrigger("Marchar");
+            a.ResetAnimationsTrigger();
         }
     }
 
     private void PlayAnimation(string code)
     {
-        foreach (Animator a in charactersAnimator)
+        foreach (PersonagenDaBateria a in charactersScripts)
         {
-            a.SetTrigger(code);
+            a.PlayAnimation(code);
         }
     }
+
+    #endregion
+
+    #region Combate
+
+    public void CharactersAttack()
+    {
+        foreach(PersonagenDaBateria pb in charactersScripts)
+        {
+            pb.Attack();
+        }
+    }
+
+    #endregion
 }

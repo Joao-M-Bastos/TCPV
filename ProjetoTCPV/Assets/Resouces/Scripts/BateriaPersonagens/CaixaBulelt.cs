@@ -5,6 +5,7 @@ using UnityEngine;
 public class CaixaBulelt : MonoBehaviour
 {
     [SerializeField] float speed, lifeSpam;
+    [SerializeField] int damage;
     // Start is called before the first frame update
     void Start()
     {
@@ -24,9 +25,9 @@ public class CaixaBulelt : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag("Enemy"))
-        {
-            Debug.Log("Acertou");
+        SimpleEnemy enemy;
+        if (other.gameObject.TryGetComponent<SimpleEnemy>(out enemy)) { 
+            enemy.GotHit(damage);
             Destroy(gameObject);
         }
     }

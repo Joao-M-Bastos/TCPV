@@ -24,6 +24,9 @@ public class PersonagenDaBateria : MonoBehaviour
     public void ResetAnimationsTrigger()
     {
         characterAnimator.ResetTrigger("Marchar");
+        characterAnimator.ResetTrigger("Errou");
+        characterAnimator.ResetTrigger("Attack");
+        characterAnimator.ResetTrigger("Defence");
     }
 
     public void PlayAnimation(string animationCode)

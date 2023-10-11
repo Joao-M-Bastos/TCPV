@@ -14,6 +14,8 @@ public class Timer : MonoBehaviour
 
     TimerSoundEffects timerSoundEffects;
 
+    [SerializeField] Animator BorderAnimator;
+
     bool isCountingTimer;
     bool intervaloTocado;
 
@@ -70,6 +72,8 @@ public class Timer : MonoBehaviour
         if (tempoAtual >= (tempoInicial + (tempoIntervalo * intervaloAtual)))
         {
             simplePlayer.PlayMarchAnimation();
+            BorderAnimator.SetTrigger("Marchar");
+
             if (intervaloTocado)
             {
                 intervaloAtual += 1;

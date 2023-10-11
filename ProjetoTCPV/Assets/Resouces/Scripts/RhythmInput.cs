@@ -40,7 +40,9 @@ public class RhythmInput : MonoBehaviour
             {
                 timer.CorrectInput(verifyCombos.VerifyCompletion());
             }
+            Debug.Log(keyToVerify);
         }
+        
 
         
     }

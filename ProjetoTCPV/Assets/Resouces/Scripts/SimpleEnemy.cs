@@ -20,8 +20,14 @@ public class SimpleEnemy : MonoBehaviour
             ChangeEnemyToAlly();
     }
 
+    public int GetLife()
+    {
+        return life;
+    }
+
     private void ChangeEnemyToAlly()
     {
         simpleAlly.ChangeToAlly();
+        Destroy(this);
     }
 }

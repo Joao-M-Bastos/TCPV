@@ -51,11 +51,7 @@ public class SimpleAlly : MonoBehaviour
         float x = Random.Range(-1f,1f);
         float z = Random.Range(-1f, 2f);
 
-        Debug.Log(x);
-        Debug.Log(z);
         Vector3 direction = new Vector3(x, 0, z).normalized;
-
-        Debug.Log(direction);
 
         WalkToDirection(direction);
     }

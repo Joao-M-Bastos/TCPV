@@ -27,6 +27,7 @@ public class PrincipalBullet : MonoBehaviour
     {
         SimpleEnemy enemy;
         if (other.gameObject.TryGetComponent<SimpleEnemy>(out enemy)){
+            
             enemy.GotHit(damage);
             Destroy(gameObject);
         }

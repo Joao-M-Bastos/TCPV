@@ -56,6 +56,7 @@ public class Timer : MonoBehaviour
 
     private void StartTimer()
     {
+        simplePlayer.ResetMarchar();
         isCountingTimer = true;
         tempoInicial = Time.time;
         tempoAtual = tempoInicial;
@@ -94,8 +95,8 @@ public class Timer : MonoBehaviour
 
     public void StopTime(bool v)
     {
-        simplePlayer.ResetMarchar();
         isCountingTimer = false;
+        simplePlayer.ResetMarchar();
 
         if (v)
         {

@@ -8,6 +8,7 @@ public class SimplePlayer : MonoBehaviour
     
     [SerializeField] PersonagenDaBateria[] charactersScripts;
     [SerializeField] ManagerScrpt gameManager;
+    [SerializeField] float speed;
     Rigidbody playerRB;
 
     private void Awake()
@@ -25,14 +26,14 @@ public class SimplePlayer : MonoBehaviour
         switch (actionCode)
         {
             case 1:
-                playerRB.AddForce(this.transform.right * 10,ForceMode.Impulse);
+                playerRB.AddForce(this.transform.right * speed,ForceMode.Impulse);
                 break;
             case 2:
                 PlayAnimation("Attack");
                 CharactersAttack();
                 break;
             case 3:
-                playerRB.AddForce(-this.transform.right * 10, ForceMode.Impulse);
+                playerRB.AddForce(-this.transform.right * speed, ForceMode.Impulse);
                 break;
             case 4:
                 PlayAnimation("Defence");

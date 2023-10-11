@@ -49,7 +49,7 @@ public class SimpleAlly : MonoBehaviour
     private void WalkRandomly()
     {
         float x = Random.Range(-1f,1f);
-        float z = Random.Range(-1f, 2f);
+        float z = Random.Range(-1f, 1f);
 
         Vector3 direction = new Vector3(x, 0, z).normalized;
 

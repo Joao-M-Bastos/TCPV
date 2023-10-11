@@ -36,7 +36,10 @@ public class PersonagenDaBateria : MonoBehaviour
 
     #endregion
 
-    public void Attack() {
-        Instantiate(projectile, projectilePointOfInstanciation.position, projectilePointOfInstanciation.rotation);
+    public void Attack(Vector3 bulletTarget) {
+        GameObject bullet = Instantiate(projectile, projectilePointOfInstanciation.position, projectilePointOfInstanciation.rotation);
+        PrincipalBullet bulletScpt = bullet.GetComponent<PrincipalBullet>();
+
+        bulletScpt.SetTarget(bulletTarget);
     }
 }

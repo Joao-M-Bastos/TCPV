@@ -1008,7 +1008,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 73513726bcb1c1c449c7aa88f792764f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  projectile: {fileID: 2079816725910318616, guid: ab62dc57f1d76754f96c56eddc654131,
+  projectile: {fileID: 6221024227038059014, guid: 0104bdc733d2fc340a36b79406ebf227,
     type: 3}
   projectilePointOfInstanciation: {fileID: 413383621}
   characterAnimator: {fileID: 0}
@@ -1736,7 +1736,7 @@ GameObject:
   - component: {fileID: 668791794}
   m_Layer: 0
   m_Name: Bateria
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1758,6 +1758,7 @@ MonoBehaviour:
   - {fileID: 295709504}
   gameManager: {fileID: 1486231512}
   speed: 10
+  viewDistance: 10
 --- !u!4 &668791791
 Transform:
   m_ObjectHideFlags: 0
@@ -1934,7 +1935,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 780743043}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 4.33, y: 0, z: 0}
+  m_LocalPosition: {x: 4.33, y: 0, z: -2.32}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:

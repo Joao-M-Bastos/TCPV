@@ -8,7 +8,10 @@ public class SimplePlayer : MonoBehaviour
     
     [SerializeField] PersonagenDaBateria[] charactersScripts;
     [SerializeField] ManagerScrpt gameManager;
-    [SerializeField] float speed;
+    [SerializeField] float speed, viewDistance;
+
+    Vector3 bulletTarget;
+
     Rigidbody playerRB;
 
     private void Awake()
@@ -39,7 +42,12 @@ public class SimplePlayer : MonoBehaviour
                 PlayAnimation("Defence");
                 break;
         }
+
+        FindCloseEnemy();
+
     }
+
+
 
     #region Animation
 
@@ -72,12 +80,35 @@ public class SimplePlayer : MonoBehaviour
     #endregion
 
     #region Combate
+    private void FindCloseEnemy()
+    {
+        GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
+
+        Vector3 closestEnemy = Vector3.zero;
+        float closestEnemyValue = 100;
+
+        for(int i = 0; i < enemies.Length; i++)
+        {
+            float distacia = Vector3.Distance(this.transform.position, enemies[i].transform.position);
+            
+            if(distacia < viewDistance && distacia < closestEnemyValue)
+            {
+                closestEnemy = enemies[i].transform.position;
+                closestEnemyValue = distacia;
+            }
+        }
+
+        bulletTarget = closestEnemy;
+    }
 
     public void CharactersAttack()
     {
-        foreach(PersonagenDaBateria pb in charactersScripts)
+        if (bulletTarget != Vector3.zero)
         {
-            pb.Attack();
+            foreach (PersonagenDaBateria pb in charactersScripts)
+            {
+                pb.Attack(bulletTarget);
+            }
         }
     }
 

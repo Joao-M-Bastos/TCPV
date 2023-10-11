@@ -33,6 +33,7 @@ public class Timer : MonoBehaviour
     {
         tempoIntervalo = 1 / (gameManager.GetBPM() / 60);
         timerSoundEffects = this.gameObject.GetComponent<TimerSoundEffects>();
+        BorderAnimator.SetFloat("BPM", gameManager.GetBPM() / 60);
     }
 
     private void Start()
@@ -101,6 +102,7 @@ public class Timer : MonoBehaviour
     {
         isCountingTimer = false;
         simplePlayer.ResetMarchar();
+        BorderAnimator.ResetTrigger("Marchar");
 
         if (v)
         {

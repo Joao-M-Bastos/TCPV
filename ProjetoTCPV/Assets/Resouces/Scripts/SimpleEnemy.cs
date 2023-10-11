@@ -29,6 +29,7 @@ public class SimpleEnemy : MonoBehaviour
     {
         simpleAlly.ChangeToAlly();
         this.gameObject.tag = "Ally";
+        
         Destroy(this);
     }
 }

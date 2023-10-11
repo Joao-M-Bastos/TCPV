@@ -17,7 +17,11 @@ public class SimplePlayer : MonoBehaviour
     private void Awake()
     {
         playerRB = this.gameObject.GetComponent<Rigidbody>();
+    }
 
+
+    private void Start()
+    {
         foreach (PersonagenDaBateria a in charactersScripts)
         {
             a.SetVelocidadeDeMarcha(gameManager.GetBPM() / 60);
@@ -42,9 +46,7 @@ public class SimplePlayer : MonoBehaviour
                 PlayAnimation("Defence");
                 break;
         }
-
         FindCloseEnemy();
-
     }
 
 

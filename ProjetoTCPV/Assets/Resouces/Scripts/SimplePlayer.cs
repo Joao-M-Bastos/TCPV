@@ -5,12 +5,19 @@ using UnityEngine;
 
 public class SimplePlayer : MonoBehaviour
 {
-    
-    [SerializeField] PersonagenDaBateria[] charactersScripts;
-    [SerializeField] ManagerScrpt gameManager;
-    [SerializeField] float speed, viewDistance;
 
-    Vector3 bulletTarget;
+    [SerializeField] GameObject projectile;
+    [SerializeField] Transform projectilePointOfInstanciation;
+
+    [SerializeField] PersonagenDaBateria[] charactersScripts;
+
+    [SerializeField] ParticleSystem attackEffect;
+    //[SerializeField] ManagerScrpt gameManager;
+
+    [SerializeField] int life;
+    int speed, viewDistance, damage, defence;
+    bool isDefending;
+
 
     Rigidbody playerRB;
 
@@ -24,32 +31,43 @@ public class SimplePlayer : MonoBehaviour
     {
         foreach (PersonagenDaBateria a in charactersScripts)
         {
-            a.SetVelocidadeDeMarcha(gameManager.GetBPM() / 60);
+            a.SetVelocidadeDeMarcha(ManagerScrpt.GetBPS());
+
+            speed += a.Speed;
+            viewDistance += a.ViewDistance;
+            life += a.Life;
+            damage += a.Damage;
+            defence += a.Defence;
         }
     }
 
     public void DoActionBasedOnCode(int actionCode)
     {
+        isDefending = false;
+
         switch (actionCode)
         {
             case 1:
-                playerRB.AddForce(this.transform.right * speed,ForceMode.Impulse);
+                ApplyImpulse(this.transform.right, speed);
                 break;
             case 2:
                 PlayAnimation("Attack");
-                CharactersAttack();
+                Attack();
                 break;
             case 3:
-                playerRB.AddForce(-this.transform.right * speed, ForceMode.Impulse);
+                ApplyImpulse(-this.transform.right, speed);
                 break;
             case 4:
                 PlayAnimation("Defence");
+                isDefending = true;
                 break;
         }
-        FindCloseEnemy();
     }
 
-
+    public void Die()
+    {
+        Destroy(this.gameObject);
+    }
 
     #region Animation
 
@@ -65,54 +83,85 @@ public class SimplePlayer : MonoBehaviour
 
     public void ResetMarchar()
     {
-        foreach (PersonagenDaBateria a in charactersScripts)
-        {
-            a.ResetAnimationsTrigger();
-        }
+        foreach (PersonagenDaBateria p in charactersScripts)
+            p.ResetAnimationsTrigger();
+        
     }
 
     private void PlayAnimation(string code)
     {
-        foreach (PersonagenDaBateria a in charactersScripts)
-        {
-            a.PlayAnimation(code);
-        }
+        foreach (PersonagenDaBateria p in charactersScripts)
+            p.PlayAnimation(code);
+        
+    }
+
+    public bool IsWrongPlaying()
+    {
+        foreach (PersonagenDaBateria p in charactersScripts)
+            if (p.IsWrongAnimationPlaying())
+                return true;
+        
+        return false;
+    }
+
+    #endregion
+
+    #region Movimentation
+
+    public void ApplyImpulse(Vector3 direction, float force)
+    {
+        if (IsEnemyNear(6) && direction.x > 0)
+            force = 0;
+        else if (IsEnemyNear(2))
+            force /= 2;
+
+        playerRB.AddForce(direction * force, ForceMode.Impulse);
     }
 
     #endregion
 
     #region Combate
-    private void FindCloseEnemy()
+
+    public void GotHit(int value)
+    {
+        int temp = value;
+
+        if (isDefending)
+            temp -= defence;
+
+        if(temp > 0)
+            life -= temp;
+
+        if (life <= 0)
+            Die();
+    }
+
+    public bool IsEnemyNear(float lessView)
     {
         GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
 
-        Vector3 closestEnemy = Vector3.zero;
-        float closestEnemyValue = 100;
-
-        for(int i = 0; i < enemies.Length; i++)
+        for (int i = 0; i < enemies.Length; i++)
         {
             float distacia = Vector3.Distance(this.transform.position, enemies[i].transform.position);
-            
-            if(distacia < viewDistance && distacia < closestEnemyValue)
+
+            if (distacia < (viewDistance - lessView))
             {
-                closestEnemy = enemies[i].transform.position;
-                closestEnemyValue = distacia;
+                return true;
             }
         }
 
-        bulletTarget = closestEnemy;
+        return false;
     }
 
-    public void CharactersAttack()
+    public void Attack()
     {
-        if (bulletTarget != Vector3.zero)
-        {
-            foreach (PersonagenDaBateria pb in charactersScripts)
-            {
-                pb.Attack(bulletTarget);
-            }
-        }
-    }
+        GameObject bullet = Instantiate(projectile, projectilePointOfInstanciation.position, projectilePointOfInstanciation.rotation);
+        PrincipalBullet bulletScpt = bullet.GetComponent<PrincipalBullet>();
 
+
+        bulletScpt.SetValues(projectilePointOfInstanciation.transform.position + Vector3.right, damage);
+
+        attackEffect.Play();
+    }
     #endregion
 }

@@ -1,12 +1,11 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PrincipalBullet : MonoBehaviour
+public class EnemyBullet : MonoBehaviour
 {
     [SerializeField] float speed, lifeSpam;
-    [SerializeField] float damage;
+    [SerializeField] int damage;
 
     Vector3 target;
 
@@ -14,8 +13,6 @@ public class PrincipalBullet : MonoBehaviour
     void Update()
     {
         transform.position += transform.forward * speed * Time.deltaTime;
-
-        Debug.Log(target);
 
         if (lifeSpam < 0)
             Destroy(gameObject);
@@ -25,22 +22,17 @@ public class PrincipalBullet : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        SimpleEnemy enemy;
-        if (other.gameObject.TryGetComponent<SimpleEnemy>(out enemy)){
-            
-            enemy.GotHit(damage);
+        SimplePlayer player;
+        if (other.gameObject.TryGetComponent<SimplePlayer>(out player))
+        {
+            player.GotHit(damage);
             Destroy(gameObject);
         }
     }
 
-    internal void SetValues(Vector3 bulletTarget, float _damage)
+    internal void SetTarget(Vector3 bulletTarget)
     {
         target = bulletTarget;
-
-        damage += _damage;
-
         this.transform.LookAt(target);
-
-        Debug.Log(target);
     }
 }

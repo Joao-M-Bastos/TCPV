@@ -87,4 +87,12 @@ public class SimpleAlly : MonoBehaviour
 
         return speed;
     }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            allyRB.AddForce(this.transform.right * speed /2, ForceMode.VelocityChange);
+        }
+    }
 }

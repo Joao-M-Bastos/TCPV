@@ -1,11 +1,17 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class PersonagenDaBateria : MonoBehaviour
 {
-    [SerializeField] GameObject projectile;
-    [SerializeField] Transform projectilePointOfInstanciation;
+    [SerializeField] int speed, viewDistance, life, damage, defence;
+    public int Speed => speed;
+    public int ViewDistance => viewDistance;
+    public int Life => life;
+    public int Damage => damage;
+
+    public int Defence => defence;
 
     [SerializeField] Animator characterAnimator;
 
@@ -34,12 +40,15 @@ public class PersonagenDaBateria : MonoBehaviour
         characterAnimator.SetTrigger(animationCode);
     }
 
-    #endregion
+    public bool IsWrongAnimationPlaying()
+    {
+        if (characterAnimator.GetCurrentAnimatorStateInfo(0).IsName("Errou"))
+        {
+            return true;
+        }
 
-    public void Attack(Vector3 bulletTarget) {
-        GameObject bullet = Instantiate(projectile, projectilePointOfInstanciation.position, projectilePointOfInstanciation.rotation);
-        PrincipalBullet bulletScpt = bullet.GetComponent<PrincipalBullet>();
-
-        bulletScpt.SetTarget(bulletTarget);
+        return false;
     }
+
+    #endregion
 }

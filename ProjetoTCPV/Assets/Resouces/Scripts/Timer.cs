@@ -17,6 +17,8 @@ public class Timer : MonoBehaviour
     [SerializeField] Animator BorderAnimator;
 
     bool isCountingTimer;
+    public bool IsCountingTimer => isCountingTimer;
+
     bool intervaloTocado;
 
 
@@ -27,17 +29,19 @@ public class Timer : MonoBehaviour
     
     float tempoIntervalo;
 
-    public int intervaloAtual;
+    int intervaloAtual;
+    public int IntervaloAtual => intervaloAtual;
 
     private void Awake()
     {
-        tempoIntervalo = 1 / (gameManager.GetBPM() / 60);
+        
         timerSoundEffects = this.gameObject.GetComponent<TimerSoundEffects>();
-        BorderAnimator.SetFloat("BPM", gameManager.GetBPM() / 60);
+        BorderAnimator.SetFloat("BPM", ManagerScrpt.GetBPS());
     }
 
     private void Start()
     {
+        tempoIntervalo = 1 / ManagerScrpt.GetBPS();
         StartTimer();
     }
 
@@ -69,9 +73,12 @@ public class Timer : MonoBehaviour
 
     public void RunningTime()
     {
+        
         tempoAtual += Time.deltaTime;
+        
         if (tempoAtual >= (tempoInicial + (tempoIntervalo * intervaloAtual)))
         {
+            
             simplePlayer.PlayMarchAnimation();
             BorderAnimator.SetTrigger("Marchar");
 
@@ -92,6 +99,7 @@ public class Timer : MonoBehaviour
 
     private void StopedTime()
     {
+        //if (!timerSoundEffects.IsCorrectPlaying() && !simplePlayer.IsWrongPlaying())
         if (!timerSoundEffects.IsCorrectPlaying() && !timerSoundEffects.IsWrongPlaying())
         {
             StartTimer();

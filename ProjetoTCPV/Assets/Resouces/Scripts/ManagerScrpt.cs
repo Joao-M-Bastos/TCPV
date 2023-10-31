@@ -6,16 +6,23 @@ public class ManagerScrpt : MonoBehaviour
 {
     [SerializeField] SimplePlayer simplePlayer;
 
+
+    [SerializeField] float BPMSerialize;
     
-    [SerializeField] float BPM;
+    static float BPM;
+
+    private void Awake()
+    {
+        BPM = BPMSerialize;
+    }
 
     public void DealWithCombo(int comboCode)
     {
         simplePlayer.DoActionBasedOnCode(comboCode);
     }
 
-    public float GetBPM()
+    public static float GetBPS()
     {
-        return BPM;
+        return BPM / 60;
     }
 }

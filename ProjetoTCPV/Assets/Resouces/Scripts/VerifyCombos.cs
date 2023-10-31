@@ -7,38 +7,28 @@ public class VerifyCombos
     CombosInputs walkCombo, attackCombo, backoffCombo, defenceCombo;
     CombosInputs[] combos;
 
+    
+
     public VerifyCombos()
     {
         walkCombo = new CombosInputs(1, 1, 2, 3, 4);
         attackCombo = new CombosInputs(2, 2, 2, 3, 3);
         backoffCombo = new CombosInputs(3, 4, 3, 2, 1);
         defenceCombo = new CombosInputs(4, 3, 3, 2,  2);
-        combos = new CombosInputs[4] { walkCombo, attackCombo, backoffCombo, defenceCombo };
-        
+        combos = new CombosInputs[4] { walkCombo, attackCombo, defenceCombo, backoffCombo };
     }
 
-    public bool Verificar(int input)
+    public bool Verificar(int input, int currentCombo)
     {
-        bool atLeastOne = false;
-
-        foreach(CombosInputs c in combos)
-        {
-            if (VerifyActiveCombos(c, input))
-                atLeastOne = true;
-        }
-
-        return atLeastOne;
+        return combos[currentCombo].isCorrectCombo(input);
     }
 
-    public int VerifyCompletion()
+    public int VerifyCompletion(int currentCombo)
     {
         int atLeastOne = 0;
 
-        foreach (CombosInputs c in combos)
-        {
-            if (c.ReturnCompleted())
-                atLeastOne = c.ReturnCompleteCode();
-        }
+        if (combos[currentCombo].ReturnCompleted())
+            atLeastOne = combos[currentCombo].ReturnCompleteCode();
 
         return atLeastOne;
     }
@@ -49,14 +39,5 @@ public class VerifyCombos
         {
             c.ResetValues();
         }
-    }
-
-    public bool VerifyActiveCombos(CombosInputs currentCombo, int input)
-    {
-        if (currentCombo.GetStillChosen() && currentCombo.isCorrectCombo(input))
-            return true;
-
-        currentCombo.SetStillChosenToFalse();
-        return false;
     }
 }

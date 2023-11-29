@@ -36,11 +36,12 @@ public class Timer : MonoBehaviour
     {
         
         timerSoundEffects = this.gameObject.GetComponent<TimerSoundEffects>();
-        BorderAnimator.SetFloat("BPM", ManagerScrpt.GetBPS());
+        
     }
 
     private void Start()
     {
+        BorderAnimator.SetFloat("BPM", ManagerScrpt.GetBPS());
         tempoIntervalo = 1 / ManagerScrpt.GetBPS();
         StartTimer();
     }

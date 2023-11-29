@@ -1,9 +1,29 @@
 fileFormatVersion: 2
-guid: e384284b5167ce94c9cdbdb997ea48f4
+guid: 62d9e1fa87592654ab8bacd926fa9a40
 ModelImporter:
   serializedVersion: 21300
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Corpo_minion
+    second: {fileID: 2100000, guid: 9caeeeea3cf47b14c8c399911c19b366, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Terno_minion
+    second: {fileID: 2100000, guid: 9e37bc5289ffc5d45893fb8153a715fa, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: cabelo_minion
+    second: {fileID: 2100000, guid: 1b20173f5b6583446bc5854bcf4f72cd, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: celular_minion
+    second: {fileID: 2100000, guid: 3696b31f6d14a644392f784da4c4b457, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0

@@ -26,6 +26,8 @@ public class SimplePlayer : MonoBehaviour
         playerRB = this.gameObject.GetComponent<Rigidbody>();
     }
 
+    
+
 
     private void Start()
     {
@@ -44,6 +46,8 @@ public class SimplePlayer : MonoBehaviour
     public void DoActionBasedOnCode(int actionCode)
     {
         isDefending = false;
+
+        
 
         switch (actionCode)
         {
@@ -110,10 +114,24 @@ public class SimplePlayer : MonoBehaviour
 
     public void ApplyImpulse(Vector3 direction, float force)
     {
-        if (IsEnemyNear(6) && direction.x > 0)
+        if (IsEnemyNear(6))
             force = 0;
         else if (IsEnemyNear(2))
             force /= 2;
+
+        if(direction.x > 0.5f)
+        {
+            playerRB.constraints = RigidbodyConstraints.None;
+
+            playerRB.constraints = RigidbodyConstraints.FreezePositionZ;
+            playerRB.freezeRotation = true;
+        }
+        else
+        {
+            playerRB.constraints = RigidbodyConstraints.None;
+            playerRB.constraints = RigidbodyConstraints.FreezePositionX;
+            playerRB.freezeRotation = true;
+        }
 
         playerRB.AddForce(direction * force, ForceMode.Impulse);
     }

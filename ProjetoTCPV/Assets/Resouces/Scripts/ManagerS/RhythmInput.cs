@@ -20,8 +20,6 @@ public class RhythmInput : MonoBehaviour
     {
         int intervaloAtual = timer.IntervaloAtual;
 
-        if (intervaloAtual == 0)
-            gotInput = false;
 
         if (!timer.IsCountingTimer)
         {

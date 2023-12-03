@@ -25,8 +25,8 @@ public class PrincipalBullet : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        SimpleEnemy enemy;
-        if (other.gameObject.TryGetComponent<SimpleEnemy>(out enemy)){
+        Enemy enemy;
+        if (other.gameObject.TryGetComponent(out enemy)){
             
             enemy.GotHit(damage);
             Destroy(gameObject);

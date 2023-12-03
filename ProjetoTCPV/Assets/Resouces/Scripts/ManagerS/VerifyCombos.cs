@@ -18,26 +18,8 @@ public class VerifyCombos
         combos = new CombosInputs[4] { walkCombo, attackCombo, defenceCombo, backoffCombo };
     }
 
-    public bool Verificar(int input, int currentCombo)
+    public bool Verificar(int input, int currentCombo, int intervaloAtual)
     {
-        return combos[currentCombo].isCorrectCombo(input);
-    }
-
-    public int VerifyCompletion(int currentCombo)
-    {
-        int atLeastOne = 0;
-
-        if (combos[currentCombo].ReturnCompleted())
-            atLeastOne = combos[currentCombo].ReturnCompleteCode();
-
-        return atLeastOne;
-    }
-
-    public void ResetValues()
-    {
-        foreach (CombosInputs c in combos)
-        {
-            c.ResetValues();
-        }
+        return combos[currentCombo].isCorrectInput(input, intervaloAtual);
     }
 }

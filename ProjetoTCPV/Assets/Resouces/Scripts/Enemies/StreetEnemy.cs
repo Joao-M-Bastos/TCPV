@@ -1,9 +1,8 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SimpleEnemy : MonoBehaviour, Enemy
+public class StreetEnemy : MonoBehaviour, Enemy
 {
     #region CombatStatus
 
@@ -12,7 +11,7 @@ public class SimpleEnemy : MonoBehaviour, Enemy
     [SerializeField] int viewDistance;
 
     [SerializeField] GameObject enemyProjectile;
-    
+
     float attackCooldown;
 
     #endregion
@@ -20,7 +19,7 @@ public class SimpleEnemy : MonoBehaviour, Enemy
     SimplePlayer player;
     SimpleAlly simpleAlly;
 
-    
+
 
     private void Awake()
     {
@@ -53,7 +52,9 @@ public class SimpleEnemy : MonoBehaviour, Enemy
 
     public void Attack()
     {
-        if(IsPlayerNear()){
+        if (IsPlayerNear(viewDistance))
+        {
+
             if (attackCooldown > 0)
             {
                 attackCooldown -= Time.deltaTime;
@@ -68,13 +69,19 @@ public class SimpleEnemy : MonoBehaviour, Enemy
             EnemyBullet bulletScpt = projectileInstace.GetComponent<EnemyBullet>();
 
             bulletScpt.SetTarget(player.transform.position);
+
+            
+        }else if(IsPlayerNear(viewDistance * 1.5f))
+        {
+            //transform.LookAt(player.transform);
+            this.transform.position += new Vector3(-1,0,0) * Time.deltaTime;
         }
     }
-    
 
-    private bool IsPlayerNear()
+
+    private bool IsPlayerNear(float distance)
     {
-        if (Vector3.Distance(this.transform.position, player.transform.position) < viewDistance)
+        if (Vector3.Distance(this.transform.position, player.transform.position) < distance)
             return true;
 
         return false;
@@ -88,7 +95,7 @@ public class SimpleEnemy : MonoBehaviour, Enemy
     {
         simpleAlly.ChangeToAlly();
         this.gameObject.tag = "Ally";
-        
+
         Destroy(this);
     }
 }

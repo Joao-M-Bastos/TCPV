@@ -19,24 +19,20 @@ public class Timer : MonoBehaviour
     bool isCountingTimer;
     public bool IsCountingTimer => isCountingTimer;
 
-    bool intervaloTocado;
-
+    bool intervaloTocado, gotWrongInput, gotAnyInput;
 
     float tempoInicial;
-
     float tempoAtual;
-
-    
     float tempoIntervalo;
 
     int intervaloAtual;
     public int IntervaloAtual => intervaloAtual;
 
+    int currentCombo;
+
     private void Awake()
     {
-        
         timerSoundEffects = this.gameObject.GetComponent<TimerSoundEffects>();
-        
     }
 
     private void Start()
@@ -69,7 +65,14 @@ public class Timer : MonoBehaviour
         tempoInicial = Time.time;
         tempoAtual = tempoInicial;
         intervaloAtual = 0;
+        gotWrongInput = false;
         intervaloTocado = true;
+        gotAnyInput = false;
+    }
+
+    internal void AtLeatOneClick()
+    {
+        gotAnyInput = true;
     }
 
     public void RunningTime()
@@ -83,18 +86,18 @@ public class Timer : MonoBehaviour
             simplePlayer.PlayMarchAnimation();
             BorderAnimator.SetTrigger("Marchar");
 
+            intervaloAtual += 1;
+
             if (intervaloTocado)
-            {
-                intervaloAtual += 1;
                 intervaloTocado = false;
-                timerSoundEffects.PlayCompass(tempoIntervalo/2);
-            }
             else
-                StopTime(false);
+                WrongInputs();
+
+            timerSoundEffects.PlayCompass(tempoIntervalo / 2);
         }
         if (intervaloAtual >= 5)
         {
-            StopTime(true);
+            StopTime();
         }
     }
 
@@ -107,14 +110,15 @@ public class Timer : MonoBehaviour
         }
     }
 
-    public void StopTime(bool v)
+    public void StopTime()
     {
         isCountingTimer = false;
         simplePlayer.ResetMarchar();
         BorderAnimator.ResetTrigger("Marchar");
 
-        if (v)
+        if (!gotWrongInput && gotAnyInput)
         {
+            CallManagerforComboAction(currentCombo);
             feverCounter++;
             timerSoundEffects.PlayCorrect();
         }
@@ -128,19 +132,29 @@ public class Timer : MonoBehaviour
         feverCounterTXT.text = "Combos: " + feverCounter;
     }
 
-    public void CorrectInput(int actionCode)
+    internal void SetComboAction(int _currentCombo)
     {
+        currentCombo = _currentCombo;
+    }
 
+    public void CorrectInput()
+    {
         if (IsInTimer())
         {
             intervaloTocado = true;
-            CallManagerforComboAction(actionCode);
+            Debug.Log("Yeah");
         }
         else
-            StopTime(false);
+            WrongInputs();
     }
 
-    private void CallManagerforComboAction(int actionCode)
+    public void WrongInputs()
+    {
+        gotWrongInput = true;
+        Debug.Log("No!");
+    }
+
+    public void CallManagerforComboAction(int actionCode)
     {
         gameManager.DealWithCombo(actionCode);
     }

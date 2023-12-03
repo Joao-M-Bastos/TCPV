@@ -18,12 +18,12 @@ public class RhythmInput : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(timer.IntervaloAtual == 0)
-        {
-            ResetCombos();
-        }
+        int intervaloAtual = timer.IntervaloAtual;
 
-        if(!timer.IsCountingTimer)
+        if (intervaloAtual == 0)
+            gotInput = false;
+
+        if (!timer.IsCountingTimer)
         {
             if (Input.GetKeyDown(KeyCode.Z))
                 currentCombo = 0;
@@ -36,6 +36,8 @@ public class RhythmInput : MonoBehaviour
 
             if (Input.GetKeyDown(KeyCode.V))
                 currentCombo = 3;
+
+            timer.SetComboAction(currentCombo);
         }
 
 
@@ -54,12 +56,14 @@ public class RhythmInput : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.F))
             keyToVerify = 4;
 
-        if (keyToVerify != 0 && verifyCombos.Verificar(keyToVerify, currentCombo))
-                timer.CorrectInput(verifyCombos.VerifyCompletion(currentCombo));
-    }
+        if (keyToVerify != 0)
+        {
+            timer.AtLeatOneClick();
 
-    private void ResetCombos()
-    {
-        verifyCombos.ResetValues();
+            if (verifyCombos.Verificar(keyToVerify, currentCombo, intervaloAtual))
+                timer.CorrectInput();
+            else
+                timer.WrongInputs();
+        }
     }
 }

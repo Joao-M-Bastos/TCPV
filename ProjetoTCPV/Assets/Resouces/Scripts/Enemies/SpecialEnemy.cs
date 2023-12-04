@@ -5,16 +5,27 @@ using UnityEngine;
 
 public class SpecialEnemy : MonoBehaviour
 {
+    public static int bateriaCount;
+    
     public GameObject bateria;
     public GameObject enemyPrefab;
     GameObject newBateriaModel;
 
+    void Start()
+    {
+        if (bateriaCount == 0)
+            bateriaCount++;
+    }
+
     void Update()
     {
-        if(gameObject.tag == "Ally")
+        if (gameObject.tag == "Ally")
         {
-            Destroy(GameObject.FindGameObjectWithTag("BateriaModel"));
+            bateriaCount++;
             newBateriaModel = Instantiate(enemyPrefab, bateria.transform.position, bateria.transform.rotation);
+            var pos = newBateriaModel.transform.position;
+            pos.x -= bateriaCount;
+            newBateriaModel.transform.position = pos;
             newBateriaModel.tag = "BateriaModel";
             
             Destroy(gameObject);

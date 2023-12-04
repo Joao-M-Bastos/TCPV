@@ -13,12 +13,13 @@ public class RhythmInput : MonoBehaviour
     {
         verifyCombos = new VerifyCombos();
         timer = this.gameObject.GetComponent<Timer>();
+        timer.SetComboAction(currentCombo);
     }
 
     // Update is called once per frame
     void Update()
     {
-        int intervaloAtual = timer.IntervaloAtual;
+        int intervaloAtual = timer.IntervaloAtual - 1;
 
 
         if (!timer.IsCountingTimer)
@@ -57,11 +58,12 @@ public class RhythmInput : MonoBehaviour
         if (keyToVerify != 0)
         {
             timer.AtLeatOneClick();
-
+            Debug.Log(currentCombo);
             if (verifyCombos.Verificar(keyToVerify, currentCombo, intervaloAtual))
                 timer.CorrectInput();
             else
                 timer.WrongInputs();
+            
         }
     }
 }

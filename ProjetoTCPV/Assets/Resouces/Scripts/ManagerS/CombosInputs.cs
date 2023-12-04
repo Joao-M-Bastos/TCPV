@@ -20,7 +20,7 @@ public class CombosInputs
         {
             return false;
         }
-        bool correct = inputs[intervaloAtual - 1] == input;
+        bool correct = inputs[intervaloAtual] == input;
         return correct;
     }
 

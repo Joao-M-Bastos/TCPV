@@ -91,7 +91,10 @@ public class Timer : MonoBehaviour
             if (intervaloTocado)
                 intervaloTocado = false;
             else
+            {
+                Debug.Log("foi no timer");
                 WrongInputs();
+            }
 
             timerSoundEffects.PlayCompass(tempoIntervalo / 2);
         }
@@ -134,7 +137,7 @@ public class Timer : MonoBehaviour
 
     internal void SetComboAction(int _currentCombo)
     {
-        currentCombo = _currentCombo;
+        currentCombo = _currentCombo +1;
     }
 
     public void CorrectInput()
@@ -142,16 +145,16 @@ public class Timer : MonoBehaviour
         if (IsInTimer())
         {
             intervaloTocado = true;
-            Debug.Log("Yeah");
         }
         else
+        {
             WrongInputs();
+        }
     }
 
     public void WrongInputs()
     {
         gotWrongInput = true;
-        Debug.Log("No!");
     }
 
     public void CallManagerforComboAction(int actionCode)

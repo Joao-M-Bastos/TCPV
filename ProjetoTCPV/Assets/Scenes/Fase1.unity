@@ -6920,7 +6920,8 @@ MonoBehaviour:
   viewDistance: 20
   enemyToSpawn:
   - {fileID: 7428940808670736763, guid: 2285154102c350742a993b8610a77386, type: 3}
-  - {fileID: 7428940808670736763, guid: 2285154102c350742a993b8610a77386, type: 3}
+  - {fileID: 7428940808670736763, guid: f56c5cdf47feadc41bbbed218c68ce4f, type: 3}
+  - {fileID: 7428940808670736763, guid: f76903ceb3b31dd439561a9990680a78, type: 3}
   dictorAnimator: {fileID: 172595303}
   targetPlace: {fileID: 688060780}
   spawnPlace: {fileID: 1766028878}

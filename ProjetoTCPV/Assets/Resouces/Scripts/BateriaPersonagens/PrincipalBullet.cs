@@ -15,8 +15,6 @@ public class PrincipalBullet : MonoBehaviour
     {
         transform.position += transform.forward * speed * Time.deltaTime;
 
-        Debug.Log(target);
-
         if (lifeSpam < 0)
             Destroy(gameObject);
         else

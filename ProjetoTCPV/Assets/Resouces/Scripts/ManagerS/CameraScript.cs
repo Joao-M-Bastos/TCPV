@@ -7,11 +7,9 @@ using UnityEngine.UI;
 public class CameraScript : MonoBehaviour
 {
 
-    [SerializeField] float altura;
+    [SerializeField] float frente, altura, distancia;
 
     [SerializeField]  Transform playerTargetTransform;
-
-    int distacica;
 
     // Update is called once per frame
     void Update()
@@ -23,9 +21,14 @@ public class CameraScript : MonoBehaviour
             camPosition.y = altura;
         }
 
-        if(distacica != playerTargetTransform.position.x)
+        if (camPosition.z != distancia)
         {
-            camPosition.x = playerTargetTransform.position.x;
+            camPosition.z = distancia;
+        }
+
+        if (camPosition.x != playerTargetTransform.position.x + frente)
+        {
+            camPosition.x = playerTargetTransform.position.x + frente;
         }
 
         this.transform.position = camPosition;

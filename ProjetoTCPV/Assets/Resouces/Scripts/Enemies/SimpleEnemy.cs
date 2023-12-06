@@ -30,6 +30,11 @@ public class SimpleEnemy : MonoBehaviour, Enemy
         attackCooldown = ManagerScrpt.GetBPS() * 4;
     }
 
+    public void SetTarget(Transform target)
+    {
+        simpleAlly.targetPlace = target;
+    }
+
     private void Update()
     {
         Attack();

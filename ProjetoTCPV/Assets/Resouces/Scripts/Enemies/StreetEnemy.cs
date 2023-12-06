@@ -1,6 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class StreetEnemy : MonoBehaviour, Enemy
 {
@@ -19,19 +21,30 @@ public class StreetEnemy : MonoBehaviour, Enemy
     SimplePlayer player;
     SimpleAlly simpleAlly;
 
+    int directionX;
+    float changeDirectionCooldown;
 
+    public int isMinion = 1;
 
     private void Awake()
     {
         simpleAlly = gameObject.GetComponent<SimpleAlly>();
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<SimplePlayer>();
+    }
 
-        attackCooldown = ManagerScrpt.GetBPS() * 4;
+    private void Start()
+    {
+        attackCooldown = ManagerScrpt.GetBPS() * 1.4f;
+    }
+
+    public void SetTarget(Transform target)
+    {
+        simpleAlly.targetPlace = target;
     }
 
     private void Update()
     {
-        Attack();
+        Action();
     }
 
     #region Defesa/Vida
@@ -50,34 +63,44 @@ public class StreetEnemy : MonoBehaviour, Enemy
 
     #region Ataque
 
-    public void Attack()
+    public void Action()
     {
         if (IsPlayerNear(viewDistance))
-        {
+            Attack();
 
-            if (attackCooldown > 0)
+        else if(IsPlayerNear(viewDistance * 1.5f * isMinion))
+        {
+            this.transform.position += new Vector3(-1.5f,0,0) * Time.deltaTime;
+        }
+        else
+        {
+            if(changeDirectionCooldown <= 0)
             {
-                attackCooldown -= Time.deltaTime;
-                return;
+                changeDirectionCooldown = 3 + Random.Range(0,2);
+                directionX = Random.Range(0, 3) - 1;
             }
-
-            attackCooldown = ManagerScrpt.GetBPS() * 4;
-
-
-            GameObject projectileInstace = Instantiate(enemyProjectile, this.transform.position + this.transform.up, enemyProjectile.transform.rotation);
-
-            EnemyBullet bulletScpt = projectileInstace.GetComponent<EnemyBullet>();
-
-            bulletScpt.SetTarget(player.transform.position);
-
-            
-        }else if(IsPlayerNear(viewDistance * 1.5f))
-        {
-            //transform.LookAt(player.transform);
-            this.transform.position += new Vector3(-1,0,0) * Time.deltaTime;
+            changeDirectionCooldown -= Time.deltaTime;
+            this.transform.position += new Vector3(directionX, 0, 0) * Time.deltaTime * 0.5f;
         }
     }
 
+    private void Attack()
+    {
+        if (attackCooldown > 0)
+        {
+            attackCooldown -= Time.deltaTime;
+            return;
+        }
+
+        attackCooldown = ManagerScrpt.GetBPS() * 4;
+
+
+        GameObject projectileInstace = Instantiate(enemyProjectile, this.transform.position + this.transform.up, enemyProjectile.transform.rotation);
+
+        EnemyBullet bulletScpt = projectileInstace.GetComponent<EnemyBullet>();
+
+        bulletScpt.SetTarget(player.transform.position);
+    }
 
     private bool IsPlayerNear(float distance)
     {

@@ -12,12 +12,17 @@ public class SimplePlayer : MonoBehaviour
     [SerializeField] PersonagenDaBateria[] charactersScripts;
 
     [SerializeField] ParticleSystem attackEffect;
-    //[SerializeField] ManagerScrpt gameManager;
+    [SerializeField] ManagerScrpt gameManager;
 
     [SerializeField] int life;
+    
+    int allyCount;
+    public int AllyCount => allyCount;
+
     int speed, viewDistance, damage, defence;
     bool isDefending;
 
+    bool passBlock;
 
     Rigidbody playerRB;
 
@@ -26,7 +31,10 @@ public class SimplePlayer : MonoBehaviour
         playerRB = this.gameObject.GetComponent<Rigidbody>();
     }
 
-    
+    public void AddAlly()
+    {
+        allyCount++;
+    }
 
 
     private void Start()
@@ -45,9 +53,13 @@ public class SimplePlayer : MonoBehaviour
 
     public void DoActionBasedOnCode(int actionCode)
     {
-        isDefending = false;
-
+        if (actionCode == 2)
+            isDefending = false;
         
+        if (passBlock)
+            passBlock = false;
+        else
+            isDefending = false;
 
         switch (actionCode)
         {
@@ -59,18 +71,23 @@ public class SimplePlayer : MonoBehaviour
                 Attack();
                 break;
             case 3:
-                ApplyImpulse(-this.transform.right, speed);
+                PlayAnimation("Defence");
+                passBlock = true;
+                isDefending = true;
                 break;
             case 4:
-                PlayAnimation("Defence");
-                isDefending = true;
+                ApplyImpulse(-this.transform.right, speed);
                 break;
         }
     }
 
     public void Die()
     {
-        Destroy(this.gameObject);
+        gameManager.GameOver(false);
+
+        foreach (PersonagenDaBateria p in charactersScripts)
+            p.gameObject.SetActive(false);
+
     }
 
     #region Animation
@@ -78,6 +95,7 @@ public class SimplePlayer : MonoBehaviour
     public void PlayMistakeAnimation()
     {
         PlayAnimation("Errou");
+        isDefending = false;
     }
 
     public void PlayMarchAnimation()
@@ -89,14 +107,12 @@ public class SimplePlayer : MonoBehaviour
     {
         foreach (PersonagenDaBateria p in charactersScripts)
             p.ResetAnimationsTrigger();
-        
     }
 
     private void PlayAnimation(string code)
     {
         foreach (PersonagenDaBateria p in charactersScripts)
             p.PlayAnimation(code);
-        
     }
 
     public bool IsWrongPlaying()

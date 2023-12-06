@@ -6,7 +6,7 @@ using Random = UnityEngine.Random;
 
 public class SimpleAlly : MonoBehaviour
 {
-    [SerializeField] Transform targetPlace;
+    [SerializeField]public Transform targetPlace;
     [SerializeField] float allowedDistanceFromTarget, speed, maxSpeed, maxSpeedRunningToTarget;
 
     Rigidbody allyRB;
@@ -22,6 +22,7 @@ public class SimpleAlly : MonoBehaviour
 
     public void ChangeToAlly()
     {
+        GameObject.FindGameObjectWithTag("Player").GetComponent<SimplePlayer>().AddAlly();
         isStillEnemy = false;
     }
 
@@ -30,6 +31,11 @@ public class SimpleAlly : MonoBehaviour
     {
         if (isStillEnemy)
             return;
+
+        if(this.transform.localScale.x < 1f)
+        {
+            this.transform.localScale += new Vector3(0.25f, 0.25f, 0.25f) * Time.deltaTime;
+        }
 
         if(isFarFromTarget(this.transform.position, targetPlace.transform.position) && canWalk(maxSpeedRunningToTarget))
             RunToTarget();
@@ -59,6 +65,7 @@ public class SimpleAlly : MonoBehaviour
     private void RunToTarget()
     {
         Vector3 direction = (targetPlace.position - transform.position).normalized;
+        direction.y = 0;
         WalkToDirection(direction);
     }
 

@@ -17,6 +17,7 @@ public class Timer : MonoBehaviour
     [SerializeField] Animator BorderAnimator;
 
     bool isCountingTimer;
+    
     public bool IsCountingTimer => isCountingTimer;
 
     bool intervaloTocado, gotWrongInput, gotAnyInput;
@@ -84,6 +85,7 @@ public class Timer : MonoBehaviour
         {
             
             simplePlayer.PlayMarchAnimation();
+
             BorderAnimator.SetTrigger("Marchar");
 
             intervaloAtual += 1;
@@ -92,7 +94,6 @@ public class Timer : MonoBehaviour
                 intervaloTocado = false;
             else
             {
-                Debug.Log("foi no timer");
                 WrongInputs();
             }
 
@@ -133,11 +134,12 @@ public class Timer : MonoBehaviour
         }
 
         feverCounterTXT.text = "Combos: " + feverCounter;
+        ManagerScrpt.feverValue = feverCounter;
     }
 
     internal void SetComboAction(int _currentCombo)
     {
-        currentCombo = _currentCombo +1;
+        currentCombo = _currentCombo + 1;
     }
 
     public void CorrectInput()

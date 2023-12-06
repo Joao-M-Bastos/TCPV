@@ -182,7 +182,7 @@ GameObject:
   - component: {fileID: 7428940808670736761}
   - component: {fileID: 1478711879}
   m_Layer: 0
-  m_Name: Inimigo (3)
+  m_Name: Male_Enemy
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

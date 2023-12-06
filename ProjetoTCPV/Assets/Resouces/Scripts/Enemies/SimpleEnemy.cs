@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SimpleEnemy : MonoBehaviour
+public class SimpleEnemy : MonoBehaviour, Enemy
 {
     #region CombatStatus
 
@@ -28,6 +28,11 @@ public class SimpleEnemy : MonoBehaviour
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<SimplePlayer>();
 
         attackCooldown = ManagerScrpt.GetBPS() * 4;
+    }
+
+    public void SetTarget(Transform target)
+    {
+        simpleAlly.targetPlace = target;
     }
 
     private void Update()
@@ -63,7 +68,7 @@ public class SimpleEnemy : MonoBehaviour
             attackCooldown = ManagerScrpt.GetBPS() * 4;
 
 
-            GameObject projectileInstace = Instantiate(enemyProjectile, this.transform.position, enemyProjectile.transform.rotation);
+            GameObject projectileInstace = Instantiate(enemyProjectile, this.transform.position + this.transform.up, enemyProjectile.transform.rotation);
 
             EnemyBullet bulletScpt = projectileInstace.GetComponent<EnemyBullet>();
 

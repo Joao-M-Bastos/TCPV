@@ -37,6 +37,8 @@ public class SpecialEnemy : MonoBehaviour, Enemy
 
     private void Update()
     {
+        if (Time.timeScale == 0)
+            return;
         Action();
     }
 
@@ -45,7 +47,10 @@ public class SpecialEnemy : MonoBehaviour, Enemy
     {
         life -= value;
         if (life <= 0)
+        {
+            Destroy(this.gameObject);
             player.SetNewMemberToVisible();
+        }
     }
 
     public float GetLife()

@@ -46,6 +46,8 @@ public class StreetEnemy : MonoBehaviour, Enemy
 
     private void Update()
     {
+        if (Time.timeScale == 0)
+            return;
         Action();
     }
 

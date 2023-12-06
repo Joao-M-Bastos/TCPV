@@ -15,6 +15,11 @@ public class MenuManager : MonoBehaviour
         SceneManager.LoadScene("1_Controles");
     }
 
+    public void OnCreditosClick()
+    {
+        SceneManager.LoadScene("3_Creditos");
+    }
+
     public void OnSairClick()
     {
         Application.Quit();

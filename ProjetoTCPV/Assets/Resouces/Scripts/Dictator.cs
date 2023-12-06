@@ -37,6 +37,9 @@ public class Dictator : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (Time.timeScale == 0)
+            return;
+
         if (spawnCooldown >= 0)
         {
             spawnCooldown -= Time.deltaTime;
@@ -55,12 +58,12 @@ public class Dictator : MonoBehaviour
                 break;
             case 2:
                 SpawnMinion();
-                spawnCooldown = spawnCooldownBase / 2;
+                spawnCooldown = spawnCooldownBase / 1.3f;
                 VerifyDistance(viewDistance / 2);
                 break;
             case 3:
                 SpawnMinion();
-                spawnCooldown = spawnCooldownBase / 3;
+                spawnCooldown = spawnCooldownBase / 1.5f;
                 VerifyAllyCount();
                 break;
             case 4:

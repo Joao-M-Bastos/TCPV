@@ -29,7 +29,7 @@ public class SimpleAlly : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (isStillEnemy)
+        if (isStillEnemy || Time.timeScale == 0)
             return;
 
         if(this.transform.localScale.x < 1.7f)

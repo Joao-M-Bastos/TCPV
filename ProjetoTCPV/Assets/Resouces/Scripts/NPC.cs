@@ -34,6 +34,9 @@ public class NPC : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (Time.timeScale == 0)
+            return;
+
         transform.position += new Vector3(1,0,0)* Time.deltaTime * speed; 
     }
 

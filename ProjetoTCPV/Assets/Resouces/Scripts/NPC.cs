@@ -39,7 +39,7 @@ public class NPC : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        int randomValue = Random.Range(2, 9);
+        int randomValue = Random.Range(5, 15);
 
         if(ManagerScrpt.feverValue >= randomValue)
         {

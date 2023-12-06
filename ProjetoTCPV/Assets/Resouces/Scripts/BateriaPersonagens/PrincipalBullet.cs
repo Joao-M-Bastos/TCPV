@@ -38,7 +38,5 @@ public class PrincipalBullet : MonoBehaviour
         damage += _damage;
 
         this.transform.LookAt(target);
-
-        Debug.Log(target);
     }
 }

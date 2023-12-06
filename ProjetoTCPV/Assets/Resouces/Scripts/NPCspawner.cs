@@ -16,12 +16,11 @@ public class NPCspawner : MonoBehaviour
     {
         if(cooldown <= 0)
         {
-
             GameObject NPC = Instantiate(NPCs[Random.Range(0, 3)], this.transform);
             NPC.GetComponent<NPC>().directionRight = isDirectionRight;
             NPC.GetComponent<NPC>().SetTarget(targetPlace);
 
-            cooldown = 10 + Random.Range(0, 10);
+            cooldown = 20 + Random.Range(5, 15);
         }
         cooldown -= Time.deltaTime;
     }

@@ -32,7 +32,7 @@ public class SimpleAlly : MonoBehaviour
         if (isStillEnemy)
             return;
 
-        if(this.transform.localScale.x < 1f)
+        if(this.transform.localScale.x < 1.7f)
         {
             this.transform.localScale += new Vector3(0.25f, 0.25f, 0.25f) * Time.deltaTime;
         }

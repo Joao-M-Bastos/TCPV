@@ -30,8 +30,8 @@ public class PersonagenDaBateria : MonoBehaviour
     public void ResetAnimationsTrigger()
     {
         characterAnimator.ResetTrigger("Marchar");
-        characterAnimator.ResetTrigger("Errou");
-        characterAnimator.ResetTrigger("Attack");
+        characterAnimator.ResetTrigger("Andar");
+        characterAnimator.ResetTrigger("Acertou");
         characterAnimator.ResetTrigger("Defence");
     }
 

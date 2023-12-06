@@ -7,9 +7,15 @@ public class SimplePlayer : MonoBehaviour
 {
 
     [SerializeField] GameObject projectile;
+
+    [SerializeField] GameObject shildPrefab;
+    GameObject shild;
+
     [SerializeField] Transform projectilePointOfInstanciation;
 
     [SerializeField] PersonagenDaBateria[] charactersScripts;
+
+    [SerializeField] GameObject newMember;
 
     [SerializeField] ParticleSystem attackEffect;
     [SerializeField] ManagerScrpt gameManager;
@@ -36,11 +42,17 @@ public class SimplePlayer : MonoBehaviour
         allyCount++;
     }
 
+    public void SetNewMemberToVisible()
+    {
+        newMember.SetActive(true);
+    }
 
     private void Start()
     {
         foreach (PersonagenDaBateria a in charactersScripts)
         {
+            
+
             a.SetVelocidadeDeMarcha(ManagerScrpt.GetBPS());
 
             speed += a.Speed;
@@ -49,36 +61,52 @@ public class SimplePlayer : MonoBehaviour
             damage += a.Damage;
             defence += a.Defence;
         }
+
+        
     }
 
     public void DoActionBasedOnCode(int actionCode)
     {
         if (actionCode == 2)
-            isDefending = false;
-        
+            BreakShild();
+
         if (passBlock)
             passBlock = false;
         else
-            isDefending = false;
+            BreakShild();
 
         switch (actionCode)
         {
             case 1:
+                PlayAnimation("Andar");
                 ApplyImpulse(this.transform.right, speed);
                 break;
             case 2:
-                PlayAnimation("Attack");
+                PlayAnimation("Acertou");
                 Attack();
                 break;
             case 3:
                 PlayAnimation("Defence");
                 passBlock = true;
-                isDefending = true;
+                SetShild();
                 break;
             case 4:
+                PlayAnimation("Andar");
                 ApplyImpulse(-this.transform.right, speed);
                 break;
         }
+    }
+
+    private void BreakShild()
+    {
+        isDefending = false;
+        Destroy(shild);
+    }
+
+    private void SetShild()
+    {
+        isDefending = true;
+        shild = Instantiate(shildPrefab, this.transform);
     }
 
     public void Die()
@@ -86,7 +114,12 @@ public class SimplePlayer : MonoBehaviour
         gameManager.GameOver(false);
 
         foreach (PersonagenDaBateria p in charactersScripts)
+        {
+            if (!p.isActiveAndEnabled)
+                break;
             p.gameObject.SetActive(false);
+
+        }
 
     }
 
@@ -97,6 +130,11 @@ public class SimplePlayer : MonoBehaviour
         PlayAnimation("Errou");
         isDefending = false;
     }
+    
+    public void PlayWhistleAnimation()
+    {
+        charactersScripts[0].PlayAnimation("Apitar");
+    }
 
     public void PlayMarchAnimation()
     {
@@ -106,20 +144,34 @@ public class SimplePlayer : MonoBehaviour
     public void ResetMarchar()
     {
         foreach (PersonagenDaBateria p in charactersScripts)
+        {
+            if (!p.isActiveAndEnabled)
+                break;
+
             p.ResetAnimationsTrigger();
+        }
     }
 
     private void PlayAnimation(string code)
     {
         foreach (PersonagenDaBateria p in charactersScripts)
+        {
+            if (!p.isActiveAndEnabled)
+                break;
             p.PlayAnimation(code);
+        }
     }
 
     public bool IsWrongPlaying()
     {
         foreach (PersonagenDaBateria p in charactersScripts)
+        {
+            if (!p.isActiveAndEnabled)
+                break;
+
             if (p.IsWrongAnimationPlaying())
                 return true;
+        }
         
         return false;
     }

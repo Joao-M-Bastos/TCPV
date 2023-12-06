@@ -78,7 +78,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 10
-  lifeSpam: 1
+  lifeSpam: 2
   damage: 1
 --- !u!1 &7287495187470760546
 GameObject:

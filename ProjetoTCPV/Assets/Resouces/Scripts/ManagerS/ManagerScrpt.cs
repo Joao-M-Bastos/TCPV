@@ -7,7 +7,7 @@ using UnityEngine.SceneManagement;
 public class ManagerScrpt : MonoBehaviour
 {
     [SerializeField] SimplePlayer simplePlayer;
-
+    [SerializeField] TimerSoundEffects soundEffects;
 
     [SerializeField] float BPMSerialize;
 

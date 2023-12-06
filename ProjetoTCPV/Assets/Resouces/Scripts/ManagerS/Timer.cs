@@ -8,11 +8,11 @@ public class Timer : MonoBehaviour
 {
     int feverCounter;
 
-    [SerializeField] SimplePlayer simplePlayer;
+    [SerializeField] public SimplePlayer simplePlayer;
     [SerializeField] ManagerScrpt gameManager;
     [SerializeField] Text feverCounterTXT;
 
-    TimerSoundEffects timerSoundEffects;
+    public TimerSoundEffects timerSoundEffects;
 
     [SerializeField] Animator BorderAnimator;
 
@@ -40,7 +40,7 @@ public class Timer : MonoBehaviour
     {
         BorderAnimator.SetFloat("BPM", ManagerScrpt.GetBPS());
         tempoIntervalo = 1 / ManagerScrpt.GetBPS();
-        StartTimer();
+        timerSoundEffects.PlayWhistle();
     }
 
     public void Quit()
@@ -69,6 +69,7 @@ public class Timer : MonoBehaviour
         gotWrongInput = false;
         intervaloTocado = true;
         gotAnyInput = false;
+        timerSoundEffects.PlayCompass(0);
     }
 
     internal void AtLeatOneClick()
@@ -78,7 +79,6 @@ public class Timer : MonoBehaviour
 
     public void RunningTime()
     {
-        
         tempoAtual += Time.deltaTime;
         
         if (tempoAtual >= (tempoInicial + (tempoIntervalo * intervaloAtual)))
@@ -97,7 +97,7 @@ public class Timer : MonoBehaviour
                 WrongInputs();
             }
 
-            timerSoundEffects.PlayCompass(tempoIntervalo / 2);
+            
         }
         if (intervaloAtual >= 5)
         {
@@ -108,7 +108,7 @@ public class Timer : MonoBehaviour
     private void StopedTime()
     {
         //if (!timerSoundEffects.IsCorrectPlaying() && !simplePlayer.IsWrongPlaying())
-        if (!timerSoundEffects.IsCorrectPlaying() && !timerSoundEffects.IsWrongPlaying())
+        if (!timerSoundEffects.IsCompassPlaying() && !timerSoundEffects.IsWhistlePlaying())
         {
             StartTimer();
         }
@@ -124,11 +124,10 @@ public class Timer : MonoBehaviour
         {
             CallManagerforComboAction(currentCombo);
             feverCounter++;
-            timerSoundEffects.PlayCorrect();
         }
         else
         {
-            simplePlayer.PlayMistakeAnimation();
+            //simplePlayer.PlayMistakeAnimation();
             feverCounter = 0;
             timerSoundEffects.PlayWrong();
         }
@@ -156,6 +155,7 @@ public class Timer : MonoBehaviour
 
     public void WrongInputs()
     {
+        timerSoundEffects.PlayWrong();
         gotWrongInput = true;
     }
 

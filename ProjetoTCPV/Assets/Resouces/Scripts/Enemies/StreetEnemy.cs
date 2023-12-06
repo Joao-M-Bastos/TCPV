@@ -13,6 +13,7 @@ public class StreetEnemy : MonoBehaviour, Enemy
     [SerializeField] int viewDistance;
 
     [SerializeField] GameObject enemyProjectile;
+    [SerializeField] Animator enemyAnimator;
 
     float attackCooldown;
 
@@ -30,11 +31,12 @@ public class StreetEnemy : MonoBehaviour, Enemy
     {
         simpleAlly = gameObject.GetComponent<SimpleAlly>();
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<SimplePlayer>();
+        enemyAnimator = gameObject.GetComponentInChildren<Animator>();
     }
 
     private void Start()
     {
-        attackCooldown = ManagerScrpt.GetBPS() * 1.4f;
+        attackCooldown = ManagerScrpt.GetBPS() * 3f;
     }
 
     public void SetTarget(Transform target)
@@ -70,7 +72,7 @@ public class StreetEnemy : MonoBehaviour, Enemy
 
         else if(IsPlayerNear(viewDistance * 1.5f * isMinion))
         {
-            this.transform.position += new Vector3(-1.5f,0,0) * Time.deltaTime;
+            this.transform.position += new Vector3(-3f,0,0) * Time.deltaTime;
         }
         else
         {
@@ -80,7 +82,7 @@ public class StreetEnemy : MonoBehaviour, Enemy
                 directionX = Random.Range(0, 3) - 1;
             }
             changeDirectionCooldown -= Time.deltaTime;
-            this.transform.position += new Vector3(directionX, 0, 0) * Time.deltaTime * 0.5f;
+            this.transform.position += new Vector3(directionX, 0, 0) * Time.deltaTime * 1f;
         }
     }
 
@@ -92,10 +94,18 @@ public class StreetEnemy : MonoBehaviour, Enemy
             return;
         }
 
+        enemyAnimator.SetTrigger("Atacar");
+
         attackCooldown = ManagerScrpt.GetBPS() * 4;
 
+        StartCoroutine(CreateBullet());
+    }
 
-        GameObject projectileInstace = Instantiate(enemyProjectile, this.transform.position + this.transform.up, enemyProjectile.transform.rotation);
+    IEnumerator CreateBullet()
+    {
+        yield return new WaitForSeconds(1);
+
+        GameObject projectileInstace = Instantiate(enemyProjectile, this.transform.position + (this.transform.up * 3), enemyProjectile.transform.rotation);
 
         EnemyBullet bulletScpt = projectileInstace.GetComponent<EnemyBullet>();
 

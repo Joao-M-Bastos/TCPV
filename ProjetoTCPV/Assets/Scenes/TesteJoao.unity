@@ -2625,7 +2625,7 @@ MonoBehaviour:
   - {fileID: 528430580}
   - {fileID: 1677983102}
   attackEffect: {fileID: 1044912832}
-  gameManager: {fileID: 0}
+  gameManager: {fileID: 262213762}
   life: 0
 --- !u!136 &741099489
 CapsuleCollider:

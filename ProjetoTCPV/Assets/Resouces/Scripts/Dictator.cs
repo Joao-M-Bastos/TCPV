@@ -14,6 +14,8 @@ public class Dictator : MonoBehaviour
 
     #endregion
 
+    [SerializeField] Animator dictorAnimator;
+
     [SerializeField] Transform targetPlace;
     [SerializeField] Transform spawnPlace;
 
@@ -29,7 +31,7 @@ public class Dictator : MonoBehaviour
 
     private void Start()
     {
-        spawnCooldownBase = ManagerScrpt.GetBPS() * 6;
+        spawnCooldownBase = ManagerScrpt.GetBPS() * 8;
     }
 
     // Update is called once per frame
@@ -87,6 +89,7 @@ public class Dictator : MonoBehaviour
 
     private void SpawnMinion()
     {
+        dictorAnimator.SetTrigger("Ataquem");
         int random = Random.Range(0, 2);
         GameObject enemy = Instantiate(enemyToSpawn[random], spawnPlace.position, enemyToSpawn[random].transform.rotation);
         enemy.GetComponent<StreetEnemy>().isMinion = 100;

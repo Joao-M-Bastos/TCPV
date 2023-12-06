@@ -1,13 +1,18 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class RhythmInput : MonoBehaviour
 {
     Timer timer;
     VerifyCombos verifyCombos;
 
+    [SerializeField] Text[] hintTXT;
+
     int currentCombo = 1;
+    public int CurrentCombo => currentCombo;
 
     private void Awake()
     {
@@ -21,22 +26,30 @@ public class RhythmInput : MonoBehaviour
     {
         int intervaloAtual = timer.IntervaloAtual - 1;
 
-
-        if (!timer.IsCountingTimer)
+        if (!timer.IsCountingTimer && !timer.timerSoundEffects.IsWhistlePlaying())
         {
+            int newCombo = currentCombo;
             if (Input.GetKeyDown(KeyCode.Z))
-                currentCombo = 0;
+                newCombo = 0;
 
             if (Input.GetKeyDown(KeyCode.X))
-                currentCombo = 1;
+                newCombo = 1;
 
             if (Input.GetKeyDown(KeyCode.C))
-                currentCombo = 2;
+                newCombo = 2;
 
             if (Input.GetKeyDown(KeyCode.V))
-                currentCombo = 3;
+                newCombo = 3;
 
-            timer.SetComboAction(currentCombo);
+            if(newCombo != currentCombo)
+            {
+                currentCombo = newCombo;
+                ShowCorrectHint();
+                timer.simplePlayer.PlayWhistleAnimation();
+                timer.SetComboAction(currentCombo);
+                timer.timerSoundEffects.ShutUp();
+                timer.timerSoundEffects.PlayWhistle();
+            }
         }
 
 
@@ -58,12 +71,21 @@ public class RhythmInput : MonoBehaviour
         if (keyToVerify != 0)
         {
             timer.AtLeatOneClick();
-            Debug.Log(currentCombo);
             if (verifyCombos.Verificar(keyToVerify, currentCombo, intervaloAtual))
                 timer.CorrectInput();
             else
                 timer.WrongInputs();
             
         }
+    }
+
+    private void ShowCorrectHint()
+    {
+        for(int i =0; i < hintTXT.Length; i++)
+        {
+            hintTXT[i].gameObject.SetActive(false);
+        }
+        
+        hintTXT[currentCombo].gameObject.SetActive(true);
     }
 }

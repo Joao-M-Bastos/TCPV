@@ -26,9 +26,11 @@ public class CameraScript : MonoBehaviour
             camPosition.z = distancia;
         }
 
+        
         if (camPosition.x != playerTargetTransform.position.x + frente)
         {
-            camPosition.x = playerTargetTransform.position.x + frente;
+            if (playerTargetTransform.position.x + frente > 0 && playerTargetTransform.position.x + frente < 175)
+                camPosition.x = playerTargetTransform.position.x + frente;
         }
 
         this.transform.position = camPosition;

@@ -62,7 +62,7 @@ public class SimplePlayer : MonoBehaviour
             defence += a.Defence;
         }
 
-        
+        charactersScripts[2].gameObject.SetActive(false);
     }
 
     public void DoActionBasedOnCode(int actionCode)

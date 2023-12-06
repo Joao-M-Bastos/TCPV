@@ -85,12 +85,10 @@ public class Dictator : MonoBehaviour
         }
     }
 
-
-
     private void SpawnMinion()
     {
         dictorAnimator.SetTrigger("Ataquem");
-        int random = Random.Range(0, 2);
+        int random = Random.Range(0, 3);
         GameObject enemy = Instantiate(enemyToSpawn[random], spawnPlace.position, enemyToSpawn[random].transform.rotation);
         enemy.GetComponent<StreetEnemy>().isMinion = 100;
         enemy.GetComponent<Enemy>().SetTarget(targetPlace);
